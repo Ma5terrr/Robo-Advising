@@ -1,1 +1,8 @@
 # Robo-Advising
+The current strategy for this program is based on few constraints which is that only US & Canadian stocks were considered, 1 million CAD is the capital given, and the target is the historical returns by the average of the S&P 500 and TSX60 during the period April 2023 and November 2024.
+
+From the list of stocks given, invalid tickers were filtered out, such as delisted stocks, stocks that are not in the US/Canada, and stocks that have too little volume. Then, the historical prices of valid stocks and the two market indices (S&P 500 and the TSX 60) were taken over the period from April 2nd, 2023, to November 22nd, 2024. The exchange rate was averaged over this time period and multiplied by the market indices and US stocks to ensure all values are in CAD for future calculations.
+
+To select the stocks, the beta and correlation values of each stock return were calculated with respect to the returns of both stock indices. The stocks were then ranked based on how close the beta values are to 1 and how high their correlations with the target is. Additionally, stocks present in the indices were given more priority. Stocks with very high volatility were penalized to ensure minimum error. The top 24 stocks that ranked the highest were selected.
+
+To determine portfolio weighting, the library cvxpy was used. A variable, “w,” which is a list of weights, was created. The objective was to minimize the difference between the index portfolio value and the stocks portfolio value. At the end, the weights that led to the closest value to the target were used to determine which stocks to buy and how many shares to acquire for the total capital given.
